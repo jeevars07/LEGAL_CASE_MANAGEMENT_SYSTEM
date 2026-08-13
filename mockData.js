@@ -1,34 +1,146 @@
 // Mock Database for Legal Case Management System
 // Author: JEEVA R S (Digital ID: 2512007)
+//
+// NOTE: plainPassword fields are hashed by the app on first load and stored in localStorage.
+// In a real production system, passwords would be hashed server-side with bcrypt.
 
 export const initialData = {
-  currentUser: null, // Will be set on login
-  
+  currentUser: null,
+
+  // ── USERS (Authentication Records) ────────────────────────────────────────
   users: [
-    { id: 'usr_admin', name: 'Jeeva R S (Admin)', role: 'Administrator', email: 'admin@lexis.law', avatar: '👨‍💼', designation: 'System Administrator' },
-    { id: 'usr_adv1', name: 'Adv. Rajesh Kumar', role: 'Advocate', email: 'rajesh.k@lexis.law', avatar: '⚖️', specialization: 'Criminal & Constitutional Law' },
-    { id: 'usr_adv2', name: 'Adv. Ananya Sharma', role: 'Advocate', email: 'ananya.s@lexis.law', avatar: '👩‍⚖️', specialization: 'Corporate & Commercial Disputes' },
-    { id: 'usr_clerk', name: 'Ramesh Patel', role: 'Clerk / Paralegal', email: 'clerk@lexis.law', avatar: '📝', designation: 'Senior Legal Clerk' },
-    { id: 'usr_client1', name: 'Vikramaditya Verma', role: 'Client', email: 'client.vikram@gmail.com', avatar: '👤', company: 'Verma Enterprises' },
-    { id: 'usr_client2', name: 'Priya Sundaram', role: 'Client', email: 'priya.s@techcorp.in', avatar: '👩', company: 'TechCorp Pvt Ltd' }
+    {
+      id: 'usr_admin',
+      name: 'Jeeva R S',
+      username: 'admin',
+      plainPassword: 'Admin@123',
+      role: 'Administrator',
+      email: 'admin@lexis.law',
+      phone: '9876543210',
+      avatar: '👨‍💼',
+      designation: 'System Administrator',
+      status: 'Active',
+      createdAt: '2026-01-01'
+    },
+    {
+      id: 'usr_adv1',
+      name: 'Adv. Rajesh Kumar',
+      username: 'advocate.smith',
+      plainPassword: 'Adv@1234',
+      role: 'Advocate',
+      email: 'rajesh.k@lexis.law',
+      phone: '9876543212',
+      avatar: '⚖️',
+      specialization: 'Criminal & Constitutional Law',
+      designation: 'Senior Advocate',
+      status: 'Active',
+      createdAt: '2026-01-02'
+    },
+    {
+      id: 'usr_adv2',
+      name: 'Adv. Ananya Sharma',
+      username: 'advocate.ananya',
+      plainPassword: 'Adv@5678',
+      role: 'Advocate',
+      email: 'ananya.s@lexis.law',
+      phone: '9876543213',
+      avatar: '👩‍⚖️',
+      specialization: 'Corporate & Commercial Disputes',
+      designation: 'Associate Advocate',
+      status: 'Active',
+      createdAt: '2026-01-02'
+    },
+    {
+      id: 'usr_clerk',
+      name: 'Ramesh Patel',
+      username: 'clerk.ramesh',
+      plainPassword: 'Clerk@123',
+      role: 'Clerk / Paralegal',
+      email: 'clerk@lexis.law',
+      phone: '9876543214',
+      avatar: '📝',
+      designation: 'Senior Legal Clerk',
+      status: 'Active',
+      createdAt: '2026-01-03'
+    },
+    {
+      id: 'usr_client1',
+      name: 'Vikramaditya Verma',
+      username: 'client.vikram',
+      plainPassword: 'Client@1',
+      role: 'Client',
+      email: 'client.vikram@gmail.com',
+      phone: '9876543215',
+      avatar: '👤',
+      designation: 'Client',
+      status: 'Active',
+      createdAt: '2026-01-10'
+    },
+    {
+      id: 'usr_client2',
+      name: 'Priya Sundaram',
+      username: 'client.priya',
+      plainPassword: 'Client@2',
+      role: 'Client',
+      email: 'priya.s@techcorp.in',
+      phone: '9876543216',
+      avatar: '👩',
+      designation: 'Client',
+      status: 'Active',
+      createdAt: '2026-01-15'
+    }
   ],
 
+  // ── CLIENTS (Client Profile Records) ─────────────────────────────────────
+  // Separate from users: holds extended profile data for clients.
+  // userId links a client profile to a user account (for login).
+  clients: [
+    {
+      id: 'cl_001',
+      clientId: 'CL-2026-001',
+      fullName: 'Vikramaditya Verma',
+      email: 'client.vikram@gmail.com',
+      phone: '9876543215',
+      address: '42, MG Road, Bangalore - 560001',
+      dateOfBirth: '1980-05-15',
+      gender: 'Male',
+      registrationDate: '2026-01-10',
+      userId: 'usr_client1',
+      company: 'Verma Enterprises'
+    },
+    {
+      id: 'cl_002',
+      clientId: 'CL-2026-002',
+      fullName: 'Priya Sundaram',
+      email: 'priya.s@techcorp.in',
+      phone: '9876543216',
+      address: '18, Anna Salai, Chennai - 600002',
+      dateOfBirth: '1985-09-22',
+      gender: 'Female',
+      registrationDate: '2026-01-15',
+      userId: 'usr_client2',
+      company: 'TechCorp Pvt Ltd'
+    }
+  ],
+
+  // ── CASES ─────────────────────────────────────────────────────────────────
   cases: [
     {
-      id: 'CS-2026-001',
+      id: 'cs_001',
+      caseNumber: 'CS-2026-001',
       title: 'Verma Enterprises vs. Apex Logistics Ltd.',
-      clientName: 'Vikramaditya Verma',
-      clientId: 'usr_client1',
-      advocateName: 'Adv. Rajesh Kumar',
-      advocateId: 'usr_adv1',
       caseType: 'Commercial Dispute',
-      court: 'High Court - Courtroom 3',
-      judge: 'Hon. Justice M. K. Rao',
-      status: 'Hearing Scheduled',
+      description: 'Breach of contract suit regarding delayed freight shipping and damaged inventory.',
+      clientId: 'cl_001',
+      clientName: 'Vikramaditya Verma',
+      advocateId: 'usr_adv1',
+      advocateName: 'Adv. Rajesh Kumar',
       filingDate: '2026-01-15',
+      status: 'Active',
+      courtName: 'High Court - Courtroom 3',
+      judge: 'Hon. Justice M. K. Rao',
       nextHearing: '2026-08-12 10:30 AM',
       claimAmount: '₹ 45,00,000',
-      description: 'Breach of contract suit regarding delayed freight shipping and damaged inventory.',
       proceedings: [
         { date: '2026-01-15', summary: 'Plaint filed and registered under commercial suit provisions.' },
         { date: '2026-02-10', summary: 'Summons issued to defendant Apex Logistics Ltd.' },
@@ -37,20 +149,21 @@ export const initialData = {
       ]
     },
     {
-      id: 'CS-2026-002',
+      id: 'cs_002',
+      caseNumber: 'CS-2026-002',
       title: 'State vs. Mehra Infrastructure Corp',
-      clientName: 'Priya Sundaram',
-      clientId: 'usr_client2',
-      advocateName: 'Adv. Ananya Sharma',
-      advocateId: 'usr_adv2',
       caseType: 'Corporate Compliance',
-      court: 'District Court - Division 2',
-      judge: 'Hon. Magistrate S. Gupta',
-      status: 'In Progress',
+      description: 'Regulatory compliance review and environmental standard petition.',
+      clientId: 'cl_002',
+      clientName: 'Priya Sundaram',
+      advocateId: 'usr_adv2',
+      advocateName: 'Adv. Ananya Sharma',
       filingDate: '2026-02-28',
+      status: 'Active',
+      courtName: 'District Court - Division 2',
+      judge: 'Hon. Magistrate S. Gupta',
       nextHearing: '2026-08-18 02:00 PM',
       claimAmount: '₹ 1,20,00,000',
-      description: 'Regulatory compliance review and environmental standard petition.',
       proceedings: [
         { date: '2026-02-28', summary: 'Initial petition for interim relief filed.' },
         { date: '2026-03-14', summary: 'Interim stay granted on penalty order.' },
@@ -58,40 +171,42 @@ export const initialData = {
       ]
     },
     {
-      id: 'CS-2026-003',
+      id: 'cs_003',
+      caseNumber: 'CS-2026-003',
       title: 'Sundaram IP Infringement Petition',
-      clientName: 'Priya Sundaram',
-      clientId: 'usr_client2',
-      advocateName: 'Adv. Ananya Sharma',
-      advocateId: 'usr_adv2',
       caseType: 'Intellectual Property',
-      court: 'High Court - Patent Bench',
-      judge: 'Hon. Justice R. N. Pillai',
-      status: 'Pending',
+      description: 'Trademark infringement suit seeking permanent injunction against unauthorized software duplication.',
+      clientId: 'cl_002',
+      clientName: 'Priya Sundaram',
+      advocateId: 'usr_adv2',
+      advocateName: 'Adv. Ananya Sharma',
       filingDate: '2026-05-10',
+      status: 'Pending',
+      courtName: 'High Court - Patent Bench',
+      judge: 'Hon. Justice R. N. Pillai',
       nextHearing: '2026-08-25 11:15 AM',
       claimAmount: '₹ 85,00,000',
-      description: 'Trademark infringement suit seeking permanent injunction against unauthorized software duplication.',
       proceedings: [
         { date: '2026-05-10', summary: 'Trademark registration certificates filed.' },
         { date: '2026-07-02', summary: 'Ex-parte ad-interim injunction application argued.' }
       ]
     },
     {
-      id: 'CS-2026-004',
+      id: 'cs_004',
+      caseNumber: 'CS-2026-004',
       title: 'Verma Estate Property Succession',
-      clientName: 'Vikramaditya Verma',
-      clientId: 'usr_client1',
-      advocateName: 'Adv. Rajesh Kumar',
-      advocateId: 'usr_adv1',
       caseType: 'Civil Property Law',
-      court: 'Civil Court - Senior Division',
-      judge: 'Hon. Judge V. K. Nair',
-      status: 'Closed',
+      description: 'Succession certificate application and partition deed registration.',
+      clientId: 'cl_001',
+      clientName: 'Vikramaditya Verma',
+      advocateId: 'usr_adv1',
+      advocateName: 'Adv. Rajesh Kumar',
       filingDate: '2025-08-14',
+      status: 'Closed',
+      courtName: 'Civil Court - Senior Division',
+      judge: 'Hon. Judge V. K. Nair',
       nextHearing: 'Completed',
       claimAmount: '₹ 2,10,00,000',
-      description: 'Succession certificate application and partition deed registration.',
       proceedings: [
         { date: '2025-08-14', summary: 'Petition for probate certificate filed.' },
         { date: '2025-11-20', summary: 'Public notice published without objections.' },
@@ -100,10 +215,11 @@ export const initialData = {
     }
   ],
 
+  // ── HEARINGS ──────────────────────────────────────────────────────────────
   hearings: [
     {
       id: 'HR-101',
-      caseId: 'CS-2026-001',
+      caseId: 'cs_001',
       caseTitle: 'Verma Enterprises vs. Apex Logistics Ltd.',
       court: 'High Court - Courtroom 3',
       judge: 'Hon. Justice M. K. Rao',
@@ -116,7 +232,7 @@ export const initialData = {
     },
     {
       id: 'HR-102',
-      caseId: 'CS-2026-002',
+      caseId: 'cs_002',
       caseTitle: 'State vs. Mehra Infrastructure Corp',
       court: 'District Court - Division 2',
       judge: 'Hon. Magistrate S. Gupta',
@@ -129,7 +245,7 @@ export const initialData = {
     },
     {
       id: 'HR-103',
-      caseId: 'CS-2026-003',
+      caseId: 'cs_003',
       caseTitle: 'Sundaram IP Infringement Petition',
       court: 'High Court - Patent Bench',
       judge: 'Hon. Justice R. N. Pillai',
@@ -142,10 +258,11 @@ export const initialData = {
     }
   ],
 
+  // ── DOCUMENTS ─────────────────────────────────────────────────────────────
   documents: [
     {
       id: 'DOC-501',
-      caseId: 'CS-2026-001',
+      caseId: 'cs_001',
       title: 'Plaint & Annexures (Verified)',
       category: 'Pleadings',
       fileSize: '4.2 MB',
@@ -156,7 +273,7 @@ export const initialData = {
     },
     {
       id: 'DOC-502',
-      caseId: 'CS-2026-001',
+      caseId: 'cs_001',
       title: 'Bill of Lading & Freight Receipts',
       category: 'Evidence',
       fileSize: '12.8 MB',
@@ -167,7 +284,7 @@ export const initialData = {
     },
     {
       id: 'DOC-503',
-      caseId: 'CS-2026-002',
+      caseId: 'cs_002',
       title: 'Environmental Audit Certificate 2025',
       category: 'Court Orders',
       fileSize: '2.1 MB',
@@ -178,7 +295,7 @@ export const initialData = {
     },
     {
       id: 'DOC-504',
-      caseId: 'CS-2026-003',
+      caseId: 'cs_003',
       title: 'Trademark Registration No. TM-884920',
       category: 'Contracts',
       fileSize: '1.5 MB',
@@ -189,10 +306,11 @@ export const initialData = {
     }
   ],
 
+  // ── BILLING ───────────────────────────────────────────────────────────────
   billing: [
     {
       invoiceNo: 'INV-2026-089',
-      caseId: 'CS-2026-001',
+      caseId: 'cs_001',
       clientName: 'Vikramaditya Verma',
       amount: '₹ 45,000',
       status: 'Paid',
@@ -207,7 +325,7 @@ export const initialData = {
     },
     {
       invoiceNo: 'INV-2026-092',
-      caseId: 'CS-2026-002',
+      caseId: 'cs_002',
       clientName: 'Priya Sundaram',
       amount: '₹ 35,000',
       status: 'Pending',
@@ -222,7 +340,7 @@ export const initialData = {
     },
     {
       invoiceNo: 'INV-2026-095',
-      caseId: 'CS-2026-003',
+      caseId: 'cs_003',
       clientName: 'Priya Sundaram',
       amount: '₹ 25,000',
       status: 'Overdue',
@@ -236,6 +354,7 @@ export const initialData = {
     }
   ],
 
+  // ── SDLC METRICS ──────────────────────────────────────────────────────────
   sdlcMetrics: {
     author: 'JEEVA R S',
     digitalId: '2512007',
